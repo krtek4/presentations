@@ -1,0 +1,171 @@
+<html>
+	<head>
+		<title>Hipster web development</title>
+		<link rel="stylesheet" href="../vendor/reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="../vendor/reveal.js/css/theme/night.css" id="theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Hipster web development</h1>
+					<h2>Web development with a different light</h2>
+				</section>
+				<section>
+					<section>
+						<h1>One language to fit them all ?</h1>
+					</section>
+					<section>
+						<h2>Compiled languages</h2>
+						<p>Your application is a binary, no web server needed !</p>
+						<ul>
+							<li>Opa : created for the web</li>
+							<li>Go : Gorilla, Web.Go, Revel</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Ada anyone ?</h2>
+						<h3>Harness the power of the space shuttle</h3>
+						<p>Sorry, I wasn't able to find an example</p>
+					</section>
+					<section>
+						<h2>Even Prolog</h2>
+						<pre>
+:- http_handler('/hello', say_hi, []).
+
+say_hi(_Request) :-
+	format('Content-type: text/html~n~n'),
+	print_html(
+		['&lt;html&gt;',
+		'&lt;body&gt;',
+			'&lt;h1&gt;',
+			'Hello World !',
+			'&lt;/h1&gt;',
+		'&lt;/body&gt;',
+		'&lt;/html&gt;']).
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>MVC ?</h1>
+					</section>
+					<section>
+						<h2>Alternatives</h2>
+						<h3>(more or less)</h3>
+						<ul>
+							<li>MVP</li>
+							<li>PAC</li>
+							<li>MVVM</li>
+							<li>Passive View</li>
+							<li>Supervising Controller</li>
+						</ul>
+						<p>Those are mostly about the naming of the "controller" part</p>
+					</section>
+					<section>
+						<h2>View first approach</h2>
+						<pre>
+&lt;table>
+    &lt;tr class="lift:ShowUsers"&gt;
+      &lt;td class="first_name"&gt;David&lt;/td&gt;
+      &lt;td class="last_name"&gt;Pollak&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+						</pre>
+						<pre>
+class Show {
+  def users = 
+    "tr *" #> ((ns: NodeSeq) => 
+      Users.findAll.flatMap(user =>
+        (".first_name *" #> user.firstName & ".last_name *" #> user.lastName).apply(ns)))
+}
+						</pre>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Where does the model go ?</h2>
+						<ul>
+							<li>Bundle / Classes / Package / Whatever</li>
+							<li>Database functions</li>
+							<li>REST API</li>
+							<li>Web Service</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Data storage ?</h2>
+						<ul>
+							<li>RDBMS</li>
+							<li>NoSQL</li>
+							<li>JCR</li>
+							<li>XML</li>
+							<li>Plain files</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>Server side ?</h2>
+						<p>Discourse is built entirely on the frontend using Ember.js</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h2>De we need dynamic at all ?</h2>
+						<ul>
+							<li>Jekyll</li>
+							<li>Hide</li>
+							<li>"static caching"</li>
+							<li>wget</li>
+						</ul>
+						<p>What is cached by a CDN could be generated statically. Think about it !</p>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h1>Conclusion</h1>
+						<h2>There is no right answer.</h2>
+						<h2>Strive to learn new way of doing things</h2>
+					</section>
+				</section>
+			</div>
+		</div>
+		<script type="text/javascript" src="../vendor/reveal.js/js/reveal.min.js"></script>
+		<script type="text/javascript">
+			Reveal.initialize({
+			    // Display controls in the bottom right corner
+			    controls: true,
+			    // Display a presentation progress bar
+			    progress: true,
+			    // Push each slide change to the browser history
+			    history: true,
+			    // Enable keyboard shortcuts for navigation
+			    keyboard: true,
+			    // Enable touch events for navigation
+			    touch: true,
+			    // Enable the slide overview mode
+			    overview: true,
+			    // Vertical centering of slides
+			    center: true,
+			    // Loop the presentation
+			    loop: false,
+			    // Change the presentation direction to be RTL
+			    rtl: false,
+			    // Number of milliseconds between automatically proceeding to the
+			    // next slide, disabled when set to 0, this value can be overwritten
+			    // by using a data-autoslide attribute on your slides
+			    autoSlide: 0,
+			    // Enable slide navigation via mouse wheel
+			    mouseWheel: false,
+			    // Transition style
+			    transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+			    // Transition speed
+			    transitionSpeed: 'fast', // default/fast/slow
+			    // Transition style for full page backgrounds
+			    backgroundTransition: 'default' // default/linear/none
+			});
+		</script>
+	</body>
+</html>
