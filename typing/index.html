@@ -1,0 +1,92 @@
+<html>
+	<head>
+		<title>Type Driven Development</title>
+		<link rel="stylesheet" href="../vendor/reveal.js/css/reveal.min.css">
+		<link rel="stylesheet" href="../vendor/reveal.js/css/theme/night.css" id="theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>TDD</h1>
+					<h2>Type Driven Development</h2>
+				</section>
+				<section>
+					<p>A type system is a collection of rules that assign a property called a type to the various constructs.</p>
+					<p>The main purpose of a type system is to reduce bugs in computer programs.</p>
+					<p><a href="http://en.wikipedia.org/wiki/Type_system">http://en.wikipedia.org/wiki/Type_system</a></p>
+				</section>
+				<section>
+					<section>
+						<h1>Strong vs Weak</h1>
+						<p>Languages are often colloquially referred to as "strongly typed" or "weakly typed". In fact, there is no universally accepted definition of what these terms mean. In general, there are more precise terms to represent the differences between type systems that lead people to call them "strong" or "weak".</p>
+						<p><a href="http://en.wikipedia.org/wiki/Type_system">http://en.wikipedia.org/wiki/Type_system</a></p>
+					</section>
+					<section>
+						<h2>Static type checking</h2>
+						<p>Types are verified at compilation time.</p>
+						<h2>Dynamic type checking</h2>
+						<p>Types are verfied at runtime</p>
+						<ul>
+							<li>Casting</li>
+							<li><code>void</code> type</li>
+							<li>pointers</li>
+						</ul>
+						<h2>Dynamically type languages</h2>
+						<p>Languages with no static type checking</p>
+					</section>
+					<section>
+						<h2>Type conversion</h2>
+						<p><code>x = "5" + 6</code></p>
+						<ul>
+							<li>"56" (Java, Javascript)</li>
+							<li>11 (PHP)</li>
+							<li>pointer arithmetic (C)</li>
+							<li>Type error (Python)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Type safety</h2>
+						<p>Type-safe code accesses only the memory locations it is authorized to access.</p>
+						<p><a href="http://en.wikipedia.org/wiki/Type_safety">http://en.wikipedia.org/wiki/Type_safety</a></p>
+					</section>
+				</section>
+			</div>
+		</div>
+		<script type="text/javascript" src="../vendor/reveal.js/js/reveal.min.js"></script>
+		<script type="text/javascript">
+			Reveal.initialize({
+			    // Display controls in the bottom right corner
+			    controls: true,
+			    // Display a presentation progress bar
+			    progress: true,
+			    // Push each slide change to the browser history
+			    history: true,
+			    // Enable keyboard shortcuts for navigation
+			    keyboard: true,
+			    // Enable touch events for navigation
+			    touch: true,
+			    // Enable the slide overview mode
+			    overview: true,
+			    // Vertical centering of slides
+			    center: true,
+			    // Loop the presentation
+			    loop: false,
+			    // Change the presentation direction to be RTL
+			    rtl: false,
+			    // Number of milliseconds between automatically proceeding to the
+			    // next slide, disabled when set to 0, this value can be overwritten
+			    // by using a data-autoslide attribute on your slides
+			    autoSlide: 0,
+			    // Enable slide navigation via mouse wheel
+			    mouseWheel: false,
+			    // Transition style
+			    transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+			    // Transition speed
+			    transitionSpeed: 'fast', // default/fast/slow
+			    // Transition style for full page backgrounds
+			    backgroundTransition: 'default' // default/linear/none
+			});
+		</script>
+	</body>
+</html>
