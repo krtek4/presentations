@@ -1,0 +1,436 @@
+<html>
+    <head>
+        <title>Functional programming in PHP</title>
+        <link rel="stylesheet" href="../vendor/reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="../vendor/reveal.js/css/theme/night.css" id="theme">
+        <link rel="stylesheet" href="../vendor/reveal.js/lib/css/zenburn.css">
+        <meta name="viewport" content="width=1150">
+        <style>
+            .reveal h1 {
+                font-size: 4em;
+                line-height: 1em;
+            }
+            .reveal h2 {
+                font-size: 3em;
+                line-height: 1em;
+            }
+            .reveal ul li {
+                font-size: 2em;
+                line-height: 1em;
+            }
+            .reveal pre {
+                font-size: 1em;
+            }
+            .reveal pre code {
+                max-height: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Functional programming</h1>
+                    <h2>for PHP developers</h2>
+                </section>
+                <section>
+                    <section>
+                        <h1>Functional programming ?</h1>
+                    </section>
+                    <section>
+                        <h2>Pure functions</h2>
+                        <h2>Immutability</h2>
+                        <h2>No state</h2>
+                    </section>
+                    <section>
+                        <h1>It is a way of thinking and reasoning.</h1>
+                    </section>
+                    <section>
+                        <h1>Functional languages enforce what is simply "good code" in other languages.</h1>
+                    </section>
+                    <section>
+                        <h1>Pure functions ?</h1>
+                        <h2>Results depends solely on input :</h2>
+                        <ul>
+                            <li>Stateless</li>
+                            <li>Idempotent</li>
+                            <li>Self contained</li>
+                            <li>No IO</li>
+                        </ul>
+                        <h2>No side effects.</h2>
+                    </section>
+                    <section>
+                        <h2>Immutability</h2>
+                        <pre><code data-trim>
+class Number {
+    private $number;
+    public function __construct($n) { $this->set($n); }
+    public function set($n) { $this->number = $n; }
+    public function factorial() { [...] }
+}
+
+$number = new Number(5);
+
+someFunctionTakingANumber($number);
+
+echo $number->factorial();
+                        </code></pre>
+                        <h2>Result ? &nbsp;&nbsp;&nbsp; <span class="fragment">Probably 120</span></h2>
+
+                    </section>
+                    <section>
+                        <h2>Immutability</h2>
+                        <pre><code data-trim>
+class Number {
+    private $number;
+    public function __construct($n) { $this->set($n); }
+    public function factorial() { [...] }
+}
+
+$number = new Number(5);
+
+someFunctionTakingANumber($number);
+
+echo $number->factorial();
+                        </code></pre>
+                        <h2>Result ? &nbsp;&nbsp;&nbsp; <span class="fragment">120 !</span></h2>
+                    </section>
+                    <section>
+                        <h1>No states !</h1>
+                        <h2>Each new state increase exponentially the complexity.</h2>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Functions as first class citizen</h2>
+                        <pre><code data-trim>
+// Function as a variable
+$func = function() {
+    return 42;
+};
+
+// Function as a return type
+function createFunction() {
+    return function() { return "Thanks for all the fish"; };
+};
+$func2 = createFunction();
+
+// Function as a parameter
+function display($func) {
+    echo $func()."\n\n";
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Use objects as functions</h2>
+                        <pre><code data-trim>
+class SomeClass {
+    public function __invoke($param1, $param2) {
+        [...]
+    }
+}
+
+$instance = new SomeClass();
+$instance('First', 'Second'); // call the __invoke() method
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Closure</h2>
+                        <pre><code data-trim>
+$foo = 'foo';
+
+$fun = function() use($foo) {
+    return $foo;
+};
+
+class SomeClass {
+    protected $foo;
+
+    public function __construct($foo) { $this->foo = $foo; }
+
+    public function __invoke() {
+        return $this->foo;
+    }
+}
+
+$fun = new SomeClass($foo);
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>Basic functions</h1>
+                    </section>
+                    <section>
+                        <h2>Map</h2>
+                        <pre><code data-trim>
+function up($s) {
+    return strtoupper($s);
+}
+
+$up = function($s) {
+    return strtoupper($s);
+};
+
+$a = array('one', 'two', 'three');
+
+$b = array_map('up', $a);
+$c = array_map($up, $a);
+
+print_r($b); // Array ([0] => 'ONE' [1] => 'TWO' [2] => 'THREE')
+print_r($c); // Array ([0] => 'ONE' [1] => 'TWO' [2] => 'THREE')
+
+array_map('strtoupper', $a);
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Reduce</h2>
+                        <pre><code data-trim>
+function product($a, $b) {
+    return $a * $b;
+}
+
+$a = array(1, 2, 3, 4, 5);
+
+$b = array_reduce($a, 'product', 1);
+
+print_r($b);
+// 120
+print_r(array_sum($a));
+// 15
+                        </code></pre>
+                        <p>Sadly <code data-trim>array_map</code> and <code data-trim>array_reduce</code> have different argument orders :(</p>
+                    </section>
+                    <section>
+                        <h2>Map is just reduce</h2>
+                        <pre><code data-trim>
+function mapReducer($func) {
+    return function($initial, $v) use($func) {
+        array_push($initial, $func($v));
+        return $initial;
+    };
+}
+
+$a = array('one', 'two', 'three');
+
+$b = array_reduce($a, mapReducer('strtoupper'), array());
+
+print_r($b); // Array ([0] => 'ONE' [1] => 'TWO' [2] => 'THREE')
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Filter</h2>
+                        <pre><code data-trim>
+$odd = function($n) {
+    return $n % 2 == 0;
+};
+
+$a = array(1, 2, 3, 4, 5, 6);
+
+$b = array_filter($a, $odd);
+
+print_r($b); // Array ([1] => 2 [3] => 4 [5] => 6)
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>Other useful functions</h1>
+                    </section>
+                    <section>
+                        <h2>Any / All</h2>
+                        <pre><code data-trim>
+function any($array, $test) {
+    foreach($array as $v)
+        if($test($v))
+            return true;
+    return false;
+}
+
+function all($array, $test) {
+    foreach($array as $v)
+        if(! $test($v))
+            return false;
+    return true;
+}
+                        </code></pre>
+                        <p>We could write any of the two using the other !</p>
+                    </section>
+                    <section>
+                        <h2>First / Last</h2>
+                        <pre><code data-trim>
+function first($array, $test) {
+    foreach($array as $v)
+        if($test($v))
+            return $v;
+    return null;
+}
+
+function last($array, $test) {
+    for($i = count($array); $i > 0; --$i)
+        if($test($array[$v - 1]))
+            return $v;
+    return null;
+}
+                        </code></pre>
+                        <p>We could write any of the two using the other !</p>
+                    </section>
+                    <section>
+                        <h2>Compose</h2>
+                        <pre><code data-trim>
+function compose($f, $g) {
+    return function() use($f, $g) {
+        return $f(call_user_func_array($g, func_get_args()));
+    };
+}
+
+function square($a) { return $a * $a; }
+$squareSum = compose('square', 'array_sum');
+
+print_r($squareSum(array(1,2,3))); // 36
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Compose generalized</h2>
+                        <pre><code data-time>
+    function compose() {
+        $functions = array_reverse(func_get_args());
+
+        return function() use($functions) {
+            $params = func_get_args();
+            $apply = function($result, $next) use ($params) {
+                if($result === null) // first function
+                    return call_user_func_array($next, $params);
+                else
+                    return $next($result);
+            }
+            return array_reduce($functions, $apply);
+        };
+    }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Memoization</h2>
+                        <pre><code data-trim>
+function factorial($n) {
+    static $cache = array();
+
+    if($n == 1) return 1;
+
+    if(! array_key_exists($n, $cache)) {
+        $cache[$n] = $n * factorial($n - 1);
+    }
+
+    return $cache[$n];
+}
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Memoization</h2>
+                        <pre><code data-trim>
+function memoize($func) {
+    return function() use($func) {
+        static $cache = array();
+
+        $args = func_get_args();
+        $key = serialize($args);
+        if(! array_key_exists($key, $cache)) {
+            $cache[$key] = call_user_func_array($func, $args);;
+        }
+        return $cache[$key];
+    }
+}
+
+$factorial = function($n) use(&$factorial) {
+    if($n == 1) return 1;
+    return $n * $factorial($n -1);
+}
+$mem_factorial = memoize($factorial);
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Partial Application</h2>
+                        <pre><code data-trim>
+function partial($func) {
+  $args = array_slice(func_get_args(), 1);
+
+  return function() use($func, $args) {
+      $full_args = array_merge($args, func_get_args());
+      return call_user_func_array($func, $full_args);
+  };
+}
+
+$date_formatter = partial('date', 'h:i d-m-Y');
+
+print_r($date_formatter());
+print_r($date_formatter('1372914000'));
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Currying</h2>
+                        <h3>Splitting a multi-parameter function into multiple single-parameter functions</h3>
+                        <pre><code data-trim>
+function($a, $b, $c, $d) { [...] }
+
+function($a)($b)($c)($d) { [...] }
+                        </code></pre>
+                        <h3>AFAIK not possible in PHP</h3>
+                    </section>
+                </section>
+                <section>
+                    <h2>Think about it !</h2>
+                    <ul>
+                        <li>Functional programming makes your code easier to reason with</li>
+                        <li>Avoid side effects as much as possible</li>
+                        <li>Create small building blocks (Single-Responsibility principle)</li>
+                        <li>Combine the blocks using the methods seen today</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript" src="../vendor/reveal.js/lib/js/head.min.js"></script>
+        <script type="text/javascript" src="../vendor/reveal.js/js/reveal.js"></script>
+        <script type="text/javascript">
+            Reveal.initialize({
+                width: 1280,
+                // Display controls in the bottom right corner
+                controls: true,
+                // Display a presentation progress bar
+                progress: true,
+                // Push each slide change to the browser history
+                history: true,
+                // Enable keyboard shortcuts for navigation
+                keyboard: true,
+                // Enable touch events for navigation
+                touch: true,
+                // Enable the slide overview mode
+                overview: true,
+                // Vertical centering of slides
+                center: true,
+                // Loop the presentation
+                loop: false,
+                // Change the presentation direction to be RTL
+                rtl: false,
+                // Number of milliseconds between automatically proceeding to the
+                // next slide, disabled when set to 0, this value can be overwritten
+                // by using a data-autoslide attribute on your slides
+                autoSlide: 0,
+                // Enable slide navigation via mouse wheel
+                mouseWheel: false,
+                // Transition style
+                transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+                // Transition speed
+                transitionSpeed: 'fast', // default/fast/slow
+                // Transition style for full page backgrounds
+                backgroundTransition: 'default', // default/linear/none
+                dependencies: [
+                    { src: '../vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
