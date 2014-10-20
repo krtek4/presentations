@@ -5,13 +5,22 @@ Implementing a great search feature for an english website is already quite
 a task. When you add accented characters like you have in french, things tend
 to get messy. What about more exotic languages like Japanse and Chinese ?
 
-In this post, I will start by explaining some ground rules and technique used
-in search engines, feel free to skip them, and then dig deeper in the specific
-topic of languages based on ideograms instead of the latin alphabet.
+When we tried to implement a search engine for a multi lingual website where we
+had articles in japanese, chinese and korean, despite not knowing those languages
+at all, we quickly remarked that our search engine was performing really poorly.
+On some occasion it wasn't even returning an article we specifically copied a word
+from.
+
+We had to do a lot of research to understand what was happening, here is a compilation
+of what we found along the way in the hope you won't have to go the same path as us !
+
+But before digging right in, let's start with some ground rules and technique used
+in search engines, feel free to skip them.
 
 The configuration example will be given for the Solr search engine. What this
 post will not be however, is an introduction on how to use Solr in your project :
-no installation procedure and basic configuration.
+no installation procedure and basic configuration. The version used is the latest
+available at the time this article was written : Solr 4.0.6
 
 Search 101
 ----------
@@ -58,11 +67,34 @@ to your field.
 
 
 You could use synonyms filtering to catch common spelling mistakes, but it would quickly
-become cumbersome to have a complete list of errors that way.
+become cumbersome to have a complete list of errors that way. Most of modern search engine
+spelling mistakes correction in their core.
 
-FOUND HOW YOU CAN DO THAT WITH SOLR
+	TODO: find how to do spelling mistake correction with Solr
 
-### Stemming (this should be h3)
+Solr also has a nifty feature that operate exactly like do "Did you mean" proposition you
+can sometimes see on the Google search page. It uses some rules and the document corpus
+to propose other query to your user.
+
+	TODO: find how to implement did you mean with Solr
+
+### Stemming
+
+Words can be used in their singular or plural forms and verbs can be conjugated. This makes
+the job of the search engine really difficult. For example, if your user is looking for
+"How to cut a diamond" you probably want to propose him the article "Diamond cutting".
+
+The words "How", "to" and "a" will already be considered has stop words, so no problems
+here, however, you want to have a match for "cutting". This is where stemming comes into
+play.
+
+Stemming is the action of keeping only the relevant parts of each word, in this case it means
+that in most scenarie "cutting" and "cut" can be considered as identical. In french, you would
+consider "coupe", "coupez" and "couper" as identical also.
+
+Stemming is often activated on both indexation and query analysis, you can do it like that :
+
+	TODO: find how to activate stemming with Solr
 
 
 ### Language specific text types
@@ -75,18 +107,33 @@ Luckily enough, a lot of people from around the world took the time to create sp
 Solr fields for some of the most used languages. Those are configured to analyze your
 texts taking into account the various specificities of the source language.
 
+The common way to use them is to declare various fields for each languages you are interested
+in and the copy the searchable text for each document in those. You can then select
+the right field to use based on the current locale of your application.
+
 I greatly encourage you to use the text field that correspond to your articles !
 
 
 Ideograms
 ---------
 
-When we tried to implement a search engine for a multi lingual website where we had articles in
-japanese, chinese and korean, despite not knowing those languages at all, we quickly remarked that
-our search engine was performing really poorly. On some occasion it wasn't even returning an article
-we specifically copied a word from.
+Once you leave the known ground of the latin alphabet and its related languages, things start
+to get more complicated. There is a lot of differences between the way we commonly approach
+search and text comprehension that no longer holds.
 
-We had to do a lot of research to understand what was happening, here is compiled what we found along
-the way in the hope you won't have to go the same path as us !
+As a disclaimer, I am no japanese, chinese or korean speaker, so anything I say concerning
+those languages is to be taken with a grain of salt, it is only what I could comprehend of all
+my readings on the subject. If you can have access to someone knowledgeable about those, I can only
+advise you to speak with them to better your configuration even further.
 
-BLA BL BLA
+### n-gramms
+
+The first difficulty we stumbled upon is that there are not really words you can base your
+search upon. There are no spaces in the sentences, only a chain of ideograms. Usually, search
+engines separate sentences in words in order to apply the various techniques we saw earlier, this
+is not possible with ideograms based languages.
+
+Luckily, some clever people came up with a solution, using n-gramms. TODO: explain this shit !
+
+
+### Morphological analysis
