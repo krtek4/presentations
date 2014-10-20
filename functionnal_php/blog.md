@@ -1,8 +1,8 @@
 Functional programming techniques in PHP
 ========================================
 
-Functional programming has gained a lot of tractions those 3 to 5 last years.
-First, there are some success story around it : Twitter move to Scala, Whatsapp
+Functional programming has gained a lot of traction those 3 to 5 last years.
+First, there are some success stories around it : Twitter move to Scala, Whatsapp
 being written in Erlang. Then we have some new kick-ass languages like Rust.
 Finally, it seems the new hype is to create a functional language compiling
 to javascript : Elm, Purescript. On a more academic front, there is also
@@ -31,8 +31,8 @@ has been resolved in most functional languages by wrapping them into a Monad, th
 of this blog post will not talk about that, so I won't explain this barbaric word,
 but feel free to do some research on the internet, it is really interesting.
 
-**Despite all those lenthy explanation, functional programming is first and for all
-a way of thinking and solving issues than can be applied in any languages**. It is
+**Despite all those lengthy explanation, functional programming is first and for all
+a way of thinking and solving issues than can be used in any languages**. It is
 just easier to do in some that are designed for it.
 
 
@@ -86,12 +86,12 @@ the PHP world :
 
     // objects as functions
     class SomeClass {
-	    public function __invoke($param1, $param2) {
-	        [...]
-	    }
-	}
-	$instance = new SomeClass();
-	$instance('First', 'Second'); // call the __invoke() method
+        public function __invoke($param1, $param2) {
+            [...]
+        }
+    }
+    $instance = new SomeClass();
+    $instance('First', 'Second'); // call the __invoke() method
 
 Knowing that, we can start playing around with basic functional concepts. For each example,
 the "common" way of doing things will be presented left and the functional way on the right.
@@ -101,40 +101,43 @@ array.
 
 Applying a function to all elements :
 
-	foreach($k => $v in $stringArray) {
-		$stringArray[$k] = strtoupper($v);
-	}
-	-------------------------------------
-	$result = array_map($stringArray, 'strtoupper')
+    foreach($k => $v in $stringArray) {
+        $stringArray[$k] = strtoupper($v);
+    }
+    -------------------------------------
+    $result = array_map($stringArray, 'strtoupper')
 
 
-"Reduce" an array :
+"Reduce" an array, often called "fold" in functional languages :
 
-	$result = 0;
-	foreach($v in $intArray) {
-		$result += $v;
-	}
-	-------------------------------------
-	$result = array_reduce($intArray, function($a, $b) { return $a + $b; }, 0)
+    $result = 0;
+    foreach($v in $intArray) {
+        $result += $v;
+    }
+    -------------------------------------
+    $result = array_reduce($intArray, function($a, $b) { return $a + $b; }, 0)
 
 This particular example might not be a good one, but keep in mind that the applied function
 can be of any particular complexity, and that you can declare and use it in other places.
 
 It is also important to note that PHP offers an `array_sum` function for this particular case :
-$result = array_sum($intArray);
+
+    $result = array_sum($intArray);
 
 
 Filter an array :
 
-	$result = array();
-	foreach($v in $intArray) {
-		if($v % 2 === 0) {
-			$result[] = $v;
-		}
-	}
-	-----------------------------
-	$result = array_filter($intArray, function($a) { return $a % 2 === 0); })
+    $result = array();
+    foreach($v in $intArray) {
+        if($v % 2 === 0) {
+            $result[] = $v;
+        }
+    }
+    -----------------------------
+    $result = array_filter($intArray, function($a) { return $a % 2 === 0); })
 
+
+A good example on how you can leverage the `array_filter` function is given in "[PHP The Right Way](http://www.phptherightway.com/pages/Functional-Programming.html)".
 
 Some utility functions
 ----------------------
@@ -148,39 +151,47 @@ predicate (a test that return a boolean) and arrays. The most common examples ar
 
 * `all` which returns true if all elements matches the predicate
 
-Those don't exists in PHP but you can find various implementations on the github repository I
-created for the occasion : <some github repo URL>
+Those don't exists in PHP but you can find various implementations on the github gist I
+created for the occasion : https://gist.github.com/krtek4/0bb3aefd58106e254bd2
 
 This kind of function can be useful for example in right management when you have to see of the
 connected user has at least one role with a particular set of permission or to verify that you
 can apply a particular transformation on all elements in an array :
 
-	// check for an administrative right
-	if(any($roles, function($r) { return $r->isAllowedToTranslate(); }) {
-		[do something]
-	}
+    // check for an administrative right
+    if(any($roles, function($r) { return $r->isAllowedToTranslate(); }) {
+        [do something]
+    }
 
-	// check if you can apply an operation to a set of elements
-	if(all($elements, function($e) { return $e->canBeDeleted(); }) {
-		[do something]
-	}
+    // check if you can apply an operation to a set of elements
+    if(all($elements, function($e) { return $e->canBeDeleted(); }) {
+        [do something]
+    }
 
 
 Once you have create all those little building blocks to manipulate your data, you can
 then compose them to perform more complex operations. Sadly PHP don't propose a `compose`
-function, but you can again find an implementation in the repository linked above.
+function, but you can again find an implementation in the gist linked above.
 
-	Find some kickass composition example
+For example, say I want to do a reverse natural sort. PHP already proposes most of the sort
+function in both "direction", but this is not the case for `natsort`, we could however easily
+achieve our goal with the following :
 
+    $natrsort = compose('array_reverse', 'natsort');
+
+    $natrsort($myArray);
 
 There would be a lot of others thing to say or show, but I don't want to overwhelm you too much
 and there is already a lot of really interesting resources available on the web :
 
-* find
-* some
-* fricking
-* links
+* Larry Garfield has done presentations about the subject at various times, here is one of the most recent : https://www.youtube.com/watch?v=M3_xnTK6-pA
+* A bit more theory about functional programming : http://www.sitepoint.com/functional-programming-and-php/
+* A nice library with a lot of utility functions : https://github.com/lstrojny/functional-php
 
+There is even a book about this exact subject : "[Functional Programming in PHP](http://www.functionalphp.com/)".
+I didn't had the opportunity to read it as of now, but the recorded talk available is another take
+at explaining functional programming with a bit of PHP history at the beginning. I found it a bit
+too long, but still interesting.
 
 Memoization
 -----------
@@ -195,41 +206,41 @@ return hit the cache. This is exactly the same thing that using caching for web 
 
 You can do that really easily using static local variables in PHP :
 
-	function factorial($n) {
-	    static $cache = array();
+    function factorial($n) {
+        static $cache = array();
 
-	    if($n == 1) return 1;
+        if($n == 1) return 1;
 
-	    if(! array_key_exists($n, $cache)) {
-	        $cache[$n] = $n * factorial($n - 1);
-	    }
+        if(! array_key_exists($n, $cache)) {
+            $cache[$n] = $n * factorial($n - 1);
+        }
 
-	    return $cache[$n];
-	}
+        return $cache[$n];
+    }
 
 You can also generalize this mechanism using a nifty function that will return a memoized version
 of any pure function :
 
-	function memoize($func) {
-	    return function() use($func) {
-	        static $cache = array();
+    function memoize($func) {
+        return function() use($func) {
+            static $cache = array();
 
-	        $args = func_get_args();
-	        $key = serialize($args);
-	        if(! array_key_exists($key, $cache)) {
-	            $cache[$key] = call_user_func_array($func, $args);;
-	        }
-	        return $cache[$key];
-	    }
-	}
+            $args = func_get_args();
+            $key = serialize($args);
+            if(! array_key_exists($key, $cache)) {
+                $cache[$key] = call_user_func_array($func, $args);;
+            }
+            return $cache[$key];
+        }
+    }
 
 You can then simply do the following :
 
-	$factorial = function($n) use(&$factorial) {
-	    if($n == 1) return 1;
-	    return $n * $factorial($n -1);
-	}
-	$mem_factorial = memoize($factorial);
+    $factorial = function($n) use(&$factorial) {
+        if($n == 1) return 1;
+        return $n * $factorial($n -1);
+    }
+    $mem_factorial = memoize($factorial);
 
 
 Et voilà ! You just built a cached version of a pure function.
@@ -243,7 +254,7 @@ You don't need to learn a brand new language to start applying the principle in 
 you can even start with tiny little steps and take your time to build up your expertise !
 
 In most of the case, having a "functional mindset" makes your code easier to reason with and automatically
-promotes common best practices like "Single Responsability Principle" and "Reusability". You even have a
+promotes common best practices like "Single Responsibility Principle" and "Reusability". You even have a
 total absence of side effect for free if you write pure functions !
 
 Someone once said *Functional languages enforce what is simply "good code" in other languages.*
