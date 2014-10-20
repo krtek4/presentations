@@ -10,13 +10,13 @@ research on new concepts like dependant typing, see Idris for example.
 
 Those are all cool and shiny new toys, but we can benefit from some techniques
 without having to learn a new tool, just by applying some principles to our
-everyday PHP ! But first of all, what exactly is functional programing ?
+everyday PHP! But first of all, what exactly is functional programing?
 
 
 Functional programming
 ----------------------
 
-Functional programming is a XXX as are imperative, logical and OO programming.
+Functional programming is a paradigm as are imperative, logical and OO programming.
 The main point is that everything is a function, in the mathematical sense. The
 corollary of that is that you cannot have side effects since all outputs depends
 solely on the input of the function. It also means you cannot have any mutable state,
@@ -44,7 +44,7 @@ easier, you have everything under the eyes, there is no need to keep in mind any
 global or shared state, thus reducing complexity a lot.
 
 Testing is made easier, you don't have to mock a lot of dependencies or create big ass
-objects, you just need to pass the arguments you function need.
+objects, you just need to pass the arguments your function need.
 
 A functional style also often result in writing small and self-contained functions used
 later as building blocks for bigger functionality, resulting in clearly decoupled code
@@ -142,8 +142,8 @@ A good example on how you can leverage the `array_filter` function is given in "
 Some utility functions
 ----------------------
 
-In most functional languages and library, you will also found functions that operates on
-predicate (a test that return a boolean) and arrays. The most common examples are :
+In most functional languages and library, you will also find functions that operates on
+predicates (a test that return a boolean) and arrays. The most common examples are :
 
 * `first` / `last` which returns the first, respectively last, element of an array matching the predicate
 
@@ -154,7 +154,7 @@ predicate (a test that return a boolean) and arrays. The most common examples ar
 Those don't exists in PHP but you can find various implementations on the github gist I
 created for the occasion : https://gist.github.com/krtek4/0bb3aefd58106e254bd2
 
-This kind of function can be useful for example in right management when you have to see of the
+You can use this kind of function in rights management. For example to check if the
 connected user has at least one role with a particular set of permission or to verify that you
 can apply a particular transformation on all elements in an array :
 
@@ -169,7 +169,7 @@ can apply a particular transformation on all elements in an array :
     }
 
 
-Once you have create all those little building blocks to manipulate your data, you can
+Once you have created all those little building blocks to manipulate your data, you can
 then compose them to perform more complex operations. Sadly PHP don't propose a `compose`
 function, but you can again find an implementation in the gist linked above.
 
@@ -202,7 +202,7 @@ caching.
 Remember when we said that the result is solely dependent on the input, now say we have a
 computational heavy function that is called multiple times with the same parameters. Knowing
 that this is a pure function means you can just cache the result the first time and then simply
-return hit the cache. This is exactly the same thing that using caching for web URLs.
+return hit the cache. This is exactly the same thing as using caching for web URLs.
 
 You can do that really easily using static local variables in PHP :
 
@@ -243,7 +243,7 @@ You can then simply do the following :
     $mem_factorial = memoize($factorial);
 
 
-Et voilà ! You just built a cached version of a pure function.
+Et voilà! You just built a cached version of a pure function.
 
 
 Conclusion
@@ -251,20 +251,20 @@ Conclusion
 
 Functional programing is not necessarily this difficult thing we are something lead to believe it is.
 You don't need to learn a brand new language to start applying the principle in your daily work,
-you can even start with tiny little steps and take your time to build up your expertise !
+you can even start with tiny little steps and take your time to build up your expertise!
 
-In most of the case, having a "functional mindset" makes your code easier to reason with and automatically
+In most cases, having a "functional mindset" makes your code easier to reason with and automatically
 promotes common best practices like "Single Responsibility Principle" and "Reusability". You even have a
-total absence of side effect for free if you write pure functions !
+total absence of side effect for free if you write pure functions!
 
 Someone once said *Functional languages enforce what is simply "good code" in other languages.*
 
 Also, learning different ways to do things can only open your mind and make you a better developer.
 
 This is why I encourage you to try techniques discussed in this post and why not take the more radical
-decision to try one of those obscure pure functional language that some bearded guy are talking about
+decision to try one of those obscure pure functional languages that some bearded guy are talking about
 in conferences. I can't promise you that you will fall in love and don't come back to PHP, but I am sure
-that you will learn a lot in the process !
+that you will learn a lot in the process!
 
 If I could only say one last thing, it would be : "Always strive to learn new things and don't stay in your comfort zone".
 
