@@ -1,0 +1,204 @@
+<html>
+    <head>
+        <title>Functional Programming : an Introduction</title>
+        <link rel="stylesheet" href="../vendor/reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="../vendor/reveal.js/css/theme/night.css" id="theme">
+        <link rel="stylesheet" href="../vendor/reveal.js/lib/css/zenburn.css">
+        <meta name="viewport" content="width=1150">
+        <style>
+            .reveal h1 {
+                font-size: 4em;
+                line-height: 1em;
+            }
+            .reveal h2 {
+                font-size: 3em;
+                line-height: 1em;
+            }
+            .reveal ul li {
+                font-size: 2em;
+                line-height: 1em;
+            }
+            .reveal pre {
+                font-size: 1em;
+            }
+            .reveal pre code {
+                max-height: none;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Functional programming</h1>
+                </section>
+                <section>
+                    <section>
+                        <h1>Functional programming ?</h1>
+                    </section>
+                    <section>
+                        <h2>Pure functions</h2>
+                        <h2>Immutability</h2>
+                        <h2>No state</h2>
+                    </section>
+                    <section>
+                        <h1>It is a way of thinking and reasoning.</h1>
+                    </section>
+                    <section>
+                        <h1>Functional languages enforce what is simply "good code" in other languages.</h1>
+                    </section>
+                    <section>
+                        <h1>Pure functions ?</h1>
+                        <h2>Results depends solely on input :</h2>
+                        <ul>
+                            <li>Stateless</li>
+                            <li>Idempotent</li>
+                            <li>Self contained</li>
+                            <li>No IO</li>
+                        </ul>
+                        <h2>No side effects.</h2>
+                    </section>
+                    <section>
+                        <h2>Immutability</h2>
+                        <pre><code data-trim>
+class Number {
+    private $number;
+    public function __construct($n) { $this->set($n); }
+    public function set($n) { $this->number = $n; }
+    public function factorial() { [...] }
+}
+
+$number = new Number(5);
+
+someFunctionTakingANumber($number);
+
+echo $number->factorial();
+                        </code></pre>
+                        <h2>Result ? &nbsp;&nbsp;&nbsp; <span class="fragment">Probably 120</span></h2>
+
+                    </section>
+                    <section>
+                        <h1>No states !</h1>
+                        <h2>Each new state increase exponentially the complexity.</h2>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h2>Functions as first class citizen</h2>
+                        <ul>
+                            <li>Arguments</li>
+                            <li>Return value</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h2>Closure</h2>
+                        <p>A function with access to variables from the lexical scope in which it was created.</p>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h1>FP Lingo</h1>
+                    </section>
+                    <section>
+                        <h2>Map</h2>
+                        <p>Apply a function to each elements of a list.</p>
+                    </section>
+                    <section>
+                        <h2>Reduce / Fold</h2>
+                        <p>"Combine" each element of a list into a single result.</p>
+                    </section>
+                    <section>
+                        <h2>Head / Tail</h2>
+                        <p>First element of a list, remainder of the list.</p>
+                    </section>
+                    <section>
+                        <h2>Filter</h2>
+                        <p>Filter some elements from a list.</p>
+                    </section>
+                    <section>
+                        <h2>Every / All / Any / Some / None</h2>
+                        <p>Test a predicate on elements of a list.</p>
+                    </section>
+                    <section>
+                        <h2>Zip</h2>
+                        <p>Combine multiple list / arrays together.</p>
+                    </section>
+                    <section>
+                        <h2>Composition</h2>
+                        <p>Combine multiple functions together.</p>
+                    </section>
+                    <section>
+                        <h2>Memoization</h2>
+                        <p>Since each function are pure, we can easily cache their results.</p>
+                    </section>
+                    <section>
+                        <h2>Partial Application</h2>
+                        <p>Fix some arguments of a function to a value.</p>
+                        <pre><code data-trim>
+function add(a, b) { a + b }
+
+function add2(b) = add(2)
+                        </code></pre>
+                    </section>
+                    <section>
+                        <h2>Currying</h2>
+                        <h3>Splitting a multi-parameter function into multiple single-parameter functions</h3>
+                        <pre><code data-trim>
+function(a, b, c, d) { [...] }
+
+function(a)(b)(c)(d) { [...] }
+                        </code></pre>
+                    </section>
+                </section>
+                <section>
+                    <h2>Think about it !</h2>
+                    <ul>
+                        <li>Functional programming makes your code easier to reason with</li>
+                        <li>Avoid side effects as much as possible</li>
+                        <li>Create small building blocks (Single-Responsibility principle)</li>
+                    </ul>
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript" src="../vendor/reveal.js/lib/js/head.min.js"></script>
+        <script type="text/javascript" src="../vendor/reveal.js/js/reveal.js"></script>
+        <script type="text/javascript">
+            Reveal.initialize({
+                width: 1280,
+                // Display controls in the bottom right corner
+                controls: true,
+                // Display a presentation progress bar
+                progress: true,
+                // Push each slide change to the browser history
+                history: true,
+                // Enable keyboard shortcuts for navigation
+                keyboard: true,
+                // Enable touch events for navigation
+                touch: true,
+                // Enable the slide overview mode
+                overview: true,
+                // Vertical centering of slides
+                center: true,
+                // Loop the presentation
+                loop: false,
+                // Change the presentation direction to be RTL
+                rtl: false,
+                // Number of milliseconds between automatically proceeding to the
+                // next slide, disabled when set to 0, this value can be overwritten
+                // by using a data-autoslide attribute on your slides
+                autoSlide: 0,
+                // Enable slide navigation via mouse wheel
+                mouseWheel: false,
+                // Transition style
+                transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+                // Transition speed
+                transitionSpeed: 'fast', // default/fast/slow
+                // Transition style for full page backgrounds
+                backgroundTransition: 'default', // default/linear/none
+                dependencies: [
+                    { src: '../vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
