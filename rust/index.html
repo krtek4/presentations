@@ -1,0 +1,190 @@
+<html>
+    <head>
+        <title>Rust : the Quick Introduction</title>
+        <link rel="stylesheet" href="../vendor/reveal.js/css/reveal.min.css">
+        <link rel="stylesheet" href="../vendor/reveal.js/css/theme/night.css" id="theme">
+        <link rel="stylesheet" href="../vendor/reveal.js/lib/css/zenburn.css">
+        <meta name="viewport" content="width=1150">
+        <style>
+            .reveal h1 {
+                font-size: 4em;
+                line-height: 1.1em;
+                margin-bottom: 0.3em;
+            }
+            .reveal h2 {
+                font-size: 3em;
+                line-height: 1.1em;
+                margin-bottom: 0.3em;
+            }
+            .reveal p {
+                font-size: 2em;
+            }
+            .reveal ul {
+                margin-bottom: 1em;
+            }
+            .reveal ul li {
+                font-size: 2em;
+                line-height: 1em;
+            }
+            .reveal pre {
+                font-size: 1em;
+            }
+            .reveal pre code {
+                max-height: none;
+            }
+            .reveal strong {
+                color: mediumpurple;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1>Rust</h1>
+                    <p>a systems programming language that runs blazingly fast, prevents almost all crashes, and eliminates data races.</p>
+                </section>
+                <section>
+                    <pre><code data-trim>
+fn add(x: int, y: int) -> int {
+    // implicit return when no semicolon
+    x + y
+}
+
+fn main() {
+    // Immutable by default
+    let x: int = 1;
+
+    // Optional mutability
+    let mut y: int = 2;
+
+    // Type inference
+    let z = 1i;
+
+    // Literal strings
+    let string = "Hello"
+}
+
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code>
+let x = 5i;
+
+if x == 5i {
+    println!("x is five!");
+} else {
+    println!("x is not five :(");
+}
+
+// expressions vs statements (semicolon !)
+let y = if x == 5i { 10i } else { 15i };
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code>
+for x in range(0i, 10i) {
+    println!("{}", x);
+}
+
+
+let mut x = 5u;
+let mut done = false;
+while !done {
+    x += x - 3;
+    println!("{}", x);
+    if x % 5 == 0 { done = true; }
+}
+
+// while true
+loop {
+    if(condition) {
+        break;
+    }
+}
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code>
+// Struct
+struct Point {
+    x: int,
+    y: int,
+}
+
+let p = Point { x: 0i, y: 0i };
+println("{} {}", p.x, p.y);
+
+// Tuple structs
+struct Color(int, int, int);
+
+// Pattern matching upon let
+let (c1, c2, c3) = Color(125, 125, 125);
+                    </code></pre>
+                </section>
+                <section>
+                    <pre><code>
+enum Ordering {
+    Less,
+    Equal,
+    Greater,
+}
+
+fn cmp(a: int, b: int) -> Ordering {
+    if a < b { Less }
+    else if a > b { Greater }
+    else { Equal }
+}
+
+match cmp(x, y) {
+    Less    => println!("less"),
+    Greater => println!("greater"),
+    Equal   => println!("equal"),
+}
+// match must be exhaustive
+                    </code></pre>
+                </section>
+            </div>
+        </div>
+        <script type="text/javascript" src="../vendor/reveal.js/lib/js/head.min.js"></script>
+        <script type="text/javascript" src="../vendor/reveal.js/js/reveal.js"></script>
+        <script type="text/javascript">
+            Reveal.initialize({
+                width: 1280,
+                // Display controls in the bottom right corner
+                controls: true,
+                // Display a presentation progress bar
+                progress: true,
+                // Push each slide change to the browser history
+                history: true,
+                // Enable keyboard shortcuts for navigation
+                keyboard: true,
+                // Enable touch events for navigation
+                touch: true,
+                // Enable the slide overview mode
+                overview: true,
+                // Vertical centering of slides
+                center: true,
+                // Loop the presentation
+                loop: false,
+                // Change the presentation direction to be RTL
+                rtl: false,
+                // Number of milliseconds between automatically proceeding to the
+                // next slide, disabled when set to 0, this value can be overwritten
+                // by using a data-autoslide attribute on your slides
+                autoSlide: 0,
+                // Enable slide navigation via mouse wheel
+                mouseWheel: false,
+                // Transition style
+                transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+                // Transition speed
+                transitionSpeed: 'fast', // default/fast/slow
+                // Transition style for full page backgrounds
+                backgroundTransition: 'default', // default/linear/none
+                dependencies: [
+                    { src: '../vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
