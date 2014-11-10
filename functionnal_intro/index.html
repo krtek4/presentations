@@ -8,11 +8,19 @@
         <style>
             .reveal h1 {
                 font-size: 4em;
-                line-height: 1em;
+                line-height: 1.1em;
+                margin-bottom: 0.3em;
             }
             .reveal h2 {
                 font-size: 3em;
-                line-height: 1em;
+                line-height: 1.1em;
+                margin-bottom: 0.3em;
+            }
+            .reveal p {
+                font-size: 2em;
+            }
+            .reveal ul {
+                margin-bottom: 1em;
             }
             .reveal ul li {
                 font-size: 2em;
@@ -23,6 +31,9 @@
             }
             .reveal pre code {
                 max-height: none;
+            }
+            .reveal strong {
+                color: mediumpurple;
             }
         </style>
     </head>
@@ -37,15 +48,22 @@
                         <h1>Functional programming ?</h1>
                     </section>
                     <section>
-                        <h2>Pure functions</h2>
-                        <h2>Immutability</h2>
-                        <h2>No state</h2>
+                        <h2>
+                            Pure functions
+                            <br>
+                            &
+                            <br>
+                            Immutability
+                        </h2>
+                        <h2>=</h2>
+                        <h2><strong>No state</strong></h2>
                     </section>
                     <section>
                         <h1>It is a way of thinking and reasoning.</h1>
+                        <p>Use of <strong>Expression</strong> instead of statements.</p>
                     </section>
                     <section>
-                        <h1>Functional languages enforce what is simply "good code" in other languages.</h1>
+                        <h2>Functional languages enforce what is simply "good code" in other languages.</h2>
                     </section>
                     <section>
                         <h1>Pure functions ?</h1>
@@ -56,10 +74,13 @@
                             <li>Self contained</li>
                             <li>No IO</li>
                         </ul>
-                        <h2>No side effects.</h2>
+                        <p><strong>No side effects.</strong></p>
                     </section>
                     <section>
-                        <h2>Immutability</h2>
+                        <h1>A pure function is said to be <strong>referentially transparent</strong>.</h1>
+                    </section>
+                    <section>
+                        <h2>Immutability ?</h2>
                         <pre><code data-trim>
 class Number {
     private $number;
@@ -78,8 +99,27 @@ echo $number->factorial();
 
                     </section>
                     <section>
+                        <h2>Immutability !</h2>
+                        <pre><code data-trim>
+class Number {
+    private $number;
+    public function __construct($n) { $this->set($n); }
+    // public function set($n) { $this->number = $n; }
+    public function factorial() { [...] }
+}
+
+$number = new Number(5);
+
+someFunctionTakingANumber($number);
+
+echo $number->factorial();
+                        </code></pre>
+                        <h2>Result ? &nbsp;&nbsp;&nbsp; <strong>120 !</strong></h2>
+
+                    </section>
+                    <section>
                         <h1>No states !</h1>
-                        <h2>Each new state increase exponentially the complexity.</h2>
+                        <h2>Each new state increase the complexity <strong>exponentially</strong>.</h2>
                     </section>
                 </section>
                 <section>
@@ -89,6 +129,7 @@ echo $number->factorial();
                             <li>Arguments</li>
                             <li>Return value</li>
                         </ul>
+                        <p><strong>Higher order functions</strong> takes functions as parameters and return them.</p>
                     </section>
                     <section>
                         <h2>Closure</h2>
@@ -102,61 +143,95 @@ echo $number->factorial();
                     <section>
                         <h2>Map</h2>
                         <p>Apply a function to each elements of a list.</p>
+                        <pre><code data-trim>
+> map (\x -> x * 2) [1, 2, 3, 4, 5]
+[2, 4, 6, 8, 10]
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Reduce / Fold</h2>
                         <p>"Combine" each element of a list into a single result.</p>
+                        <pre><code data-trim>
+> foldl (+) 0 (1 .. 5)
+15
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Head / Tail</h2>
                         <p>First element of a list, remainder of the list.</p>
+                        <pre><code data-trim>
+> head (1 .. 5)
+Just (1)
+
+> tail (1 .. 5)
+Just ([2, 3, 4, 5])
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Filter</h2>
                         <p>Filter some elements from a list.</p>
+                        <pre><code data-trim>
+> filter (\n -> n % 2 == 0) (1 .. 10)
+[2, 4, 6, 8, 10]
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Every / All / Any / Some / None</h2>
                         <p>Test a predicate on elements of a list.</p>
+                        <pre><code data-trim>
+> let even x = x % 2 == 0
+
+> any even [1,2,3]
+true
+
+> all even [1,2,3]
+false
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Zip</h2>
                         <p>Combine multiple list / arrays together.</p>
+                        <pre><code data-trim>
+> zip [1, 2, 3, 4, 5] ["a", "b", "c", "d", "e"]
+[Tuple (1) ("a"),Tuple (2) ("b"),Tuple (3) ("c"),Tuple (4) ("d"),Tuple (5) ("e")]
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Composition</h2>
                         <p>Combine multiple functions together.</p>
+                        <pre><code data-trim>
+> (drop 3 >>> take 5) (1..20)
+[4,5,6,7,8]
+
+> (drop 3 <<< take 5) (1..20)
+[4,5]
+                        </code></pre>
                     </section>
                     <section>
                         <h2>Memoization</h2>
                         <p>Since each function are pure, we can easily cache their results.</p>
                     </section>
                     <section>
-                        <h2>Partial Application</h2>
+                        <h2>Partial Application & Currying</h2>
                         <p>Fix some arguments of a function to a value.</p>
+                        <p>Splitting a multi-parameter function into multiple single-parameter functions</p>
                         <pre><code data-trim>
-function add(a, b) { a + b }
-
-function add2(b) = add(2)
+> let add x y = x + y
+> let add2 = add 2
+> add2 13
                         </code></pre>
                     </section>
                     <section>
-                        <h2>Currying</h2>
-                        <h3>Splitting a multi-parameter function into multiple single-parameter functions</h3>
+                        <h2>Pattern Matching</h2>
                         <pre><code data-trim>
-function(a, b, c, d) { [...] }
-
-function(a)(b)(c)(d) { [...] }
-                        </code></pre>
+gcd :: Number -> Number -> Number
+gcd n 0 = n
+gcd 0 n = n
+gcd n m | n > m = gcd (n - m) m
+gcd n m         = gcd n (m - n)
+                        </code>
+                        </pre>
                     </section>
-                </section>
-                <section>
-                    <h2>Think about it !</h2>
-                    <ul>
-                        <li>Functional programming makes your code easier to reason with</li>
-                        <li>Avoid side effects as much as possible</li>
-                        <li>Create small building blocks (Single-Responsibility principle)</li>
-                    </ul>
                 </section>
             </div>
         </div>
@@ -194,10 +269,7 @@ function(a)(b)(c)(d) { [...] }
                 // Transition speed
                 transitionSpeed: 'fast', // default/fast/slow
                 // Transition style for full page backgrounds
-                backgroundTransition: 'default', // default/linear/none
-                dependencies: [
-                    { src: '../vendor/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
-                ]
+                backgroundTransition: 'default' // default/linear/none
             });
         </script>
     </body>
