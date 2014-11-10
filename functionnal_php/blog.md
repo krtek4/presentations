@@ -103,31 +103,37 @@ the PHP world :
     $instance = new SomeClass();
     $instance('First', 'Second'); // call the __invoke() method
 
-Knowing that, we can start playing around with basic functional concepts. For each example,
-the "common" way of doing things will be presented first followed by the functional one.
+Knowing that, we can start playing around with basic functional concepts. **For each example,
+the "common" way of doing things will be presented first followed by the functional one**.
 As it is often the case in functional programming, we will most of the time manipulate an
 array.
 
 
 Applying a function to all elements :
 
-    foreach($k => $v in $stringArray) {
+    // The imperative way :
+
+    foreach($stringArray as $k => $v) {
         $stringArray[$k] = strtoupper($v);
     }
 
-    // -------------------------------------
 
-    $result = array_map($stringArray, 'strtoupper')
+    // The functional way :
+
+    $result = array_map('strtoupper', $stringArray);
 
 
 "Reduce" an array, often called "fold" in functional languages :
 
+    // The imperative way :
+
     $result = 0;
-    foreach($v in $intArray) {
+    foreach($intArray as $v) {
         $result += $v;
     }
 
-    // -------------------------------------
+
+    // The functional way :
 
     $result = array_reduce($intArray, function($a, $b) { return $a + $b; }, 0)
 
@@ -141,16 +147,19 @@ It is also important to note that PHP offers an `array_sum` function for this pa
 
 Filter an array :
 
+    // The imperative way :
+
     $result = array();
-    foreach($v in $intArray) {
+    foreach($intArray as $v) {
         if($v % 2 === 0) {
             $result[] = $v;
         }
     }
 
-    // -------------------------------------
 
-    $result = array_filter($intArray, function($a) { return $a % 2 === 0); })
+    // The functional way :
+
+    $result = array_filter($intArray, function($a) { return ($a % 2 === 0); })
 
 
 A good example on how you can leverage the `array_filter` function is given in "[PHP The Right Way][9]".
@@ -164,13 +173,13 @@ In most functional languages and library, you will also find functions that oper
 predicates (a test that return a boolean) and arrays. The most common examples are :
 
 * `first` / `last` which returns the first, respectively last, element of an array matching the predicate
-
 * `any` which returns true as soon as one element matches the predicate
-
 * `all` which returns true if all elements matches the predicate
 
-Those don't exists in PHP but you can find various implementations on the github gist I
-created for the occasion : https://gist.github.com/krtek4/0bb3aefd58106e254bd2
+Those don't exists in PHP but you can find various implementations on the [github gist][20] I
+created for the occasion.
+
+[20]: https://gist.github.com/krtek4/0bb3aefd58106e254bd2
 
 You can use this kind of function in rights management. For example to check if the
 connected user has at least one role with a particular set of permission or to verify that you
@@ -254,7 +263,7 @@ of any pure function :
             $args = func_get_args();
             $key = serialize($args);
             if(! array_key_exists($key, $cache)) {
-                $cache[$key] = call_user_func_array($func, $args);;
+                $cache[$key] = call_user_func_array($func, $args);
             }
             return $cache[$key];
         }
