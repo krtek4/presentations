@@ -91,7 +91,7 @@ play.
 
 Stemming is the action of keeping only the relevant parts of each word (the stem), in
 this case it means that in most scenarios “cutting” and “cut” can be considered as identical.
-In french, you would consider “coupure”, “coupe”, “coupez” and “couper” as identical also.
+In French, you would consider “coupure”, “coupe”, “coupez” and “couper” as identical also.
 
 Stemming is often activated on both indexation and query analysis. There is multiple stemming
 filters in Solr some more aggressive than others, usually the SnowballPorterFilterFactory is
@@ -120,7 +120,7 @@ Once you leave the known ground of the latin alphabet and its related languages,
 to get more complicated. There is a lot of differences between the way we commonly approach
 search and text comprehension that no longer holds.
 
-As a disclaimer, I am no japanese, chinese or korean speaker, so anything I say concerning
+As a disclaimer, I am no Japanese, Chinese or Korean speaker, so anything I say concerning
 those languages is to be taken with a grain of salt, it is only what I could comprehend of all
 my readings on the subject. If you can have access to someone knowledgeable about those, I can only
 advise you to speak with them to better your configuration even further.
