@@ -113,6 +113,23 @@ There is a dedicated documentation available: [Solr Phonetic Matching][4]
 
 [4]: https://cwiki.apache.org/confluence/display/solr/Phonetic+Matching
 
+ASCII Folding
+-------------
+
+In some cases, for example when you want to sort results or with proper nouns, you want to get
+rid of all the accented letters and none ASCII characters.
+
+Solr a a filter just for that:
+
+    <filter class="solr.ASCIIFoldingFilterFactory"/>
+
+This will transform “Björn Ångström” to “Bjorn Angstrom”, allowing to sort results without issues.
+
+If you want a more consistent folding across all the Unicode planes, you can use  the `ICUFoldingFilterFactory`.
+
+It is however not recommended to use those filters on the fields used for searching because it could
+break other filters like stemming and will probably lead to less precise results.
+
 Working with ideograms
 ----------------------
 
