@@ -22,8 +22,8 @@ At first, returning results to a search query can be seen as easy, but pretty
 soon you realize that everyone has a different way of expressing things. You
 can also encounter spelling mistakes, usage of synonyms, use of conjugated verbs, etc.
 
-Hopefully, a lot of intelligent people have already resolved those common
-issues, there often just a few keystrokes away.
+Fortunately, a lot of intelligent people have already resolved those common
+issues, they're often just a few keystrokes away.
 
 Stop words
 ----------
