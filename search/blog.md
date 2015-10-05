@@ -183,7 +183,7 @@ analysis.
 
 Since a sentence in Japanese may use up to 4 different alphabets, simple n-gramming often changes
 meaning and semantics. You can see the “[Japanese Linguistics in Lucene and Solr][5]” presentation for
-more details about those issues. Fortunately, Solr integrates a morphological analyzer for Japanese: Kuromoji[7].
+more details about those issues. Fortunately, Solr integrates a morphological analyzer for Japanese: [Kuromoji][7].
 
 Morphological analysis tries to separate Japanese in “words” that are meaningful for each sentence. It uses
 a statistical model to do so and thus there could be errors, but in any case the result won’t be worst than
