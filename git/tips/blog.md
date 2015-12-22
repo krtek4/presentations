@@ -174,7 +174,7 @@ For PHP this should suffice, because git already ships a corresponding diff driv
 
 ```
 [diff "phpf"]
-xfuncname = "<regex for my hunk>"
+  xfuncname = "<regex for my hunk>"
 ```
 
 Git will then go backward from the modification and display the first line that matches the regex you configured. For more details, you can head to the [official gitattributes documentation](gitattributes).
@@ -235,10 +235,10 @@ git config --global rebase.autosquash true
 I also defined some aliases to help :
 
 ```
-fix= commit --fixup HEAD~1  # fixup the last commmit
-fixup  = commit --fixup # fixup a commit in the history (need a revision)
-squash = commit --squash# squash a commit in the history (need a revision)
-ri = rebase --interactive   # interactive rebase
+fix    = commit --fixup HEAD~1  # fixup the last commmit
+fixup  = commit --fixup         # fixup a commit in the history (need a revision)
+squash = commit --squash        # squash a commit in the history (need a revision)
+ri     = rebase --interactive   # interactive rebase
 ```
 
 rerere : Reuse Recorded Resolution
