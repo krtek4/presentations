@@ -75,6 +75,7 @@ The basics
 The first important thing is that functions are, more or less, first class citizen in
 the PHP world :
 
+```
     // Function as a variable
     $func = function() {
         return 42;
@@ -102,6 +103,7 @@ the PHP world :
     }
     $instance = new SomeClass();
     $instance('First', 'Second'); // call the __invoke() method
+```
 
 Knowing that, we can start playing around with basic functional concepts. **For each example,
 the "common" way of doing things will be presented first followed by the functional one**.
@@ -111,6 +113,7 @@ array.
 
 Applying a function to all elements :
 
+```
     // The imperative way :
 
     foreach($stringArray as $k => $v) {
@@ -121,10 +124,11 @@ Applying a function to all elements :
     // The functional way :
 
     $result = array_map('strtoupper', $stringArray);
-
+```
 
 "Reduce" an array, often called "fold" in functional languages :
 
+```
     // The imperative way :
 
     $result = 0;
@@ -136,17 +140,20 @@ Applying a function to all elements :
     // The functional way :
 
     $result = array_reduce($intArray, function($a, $b) { return $a + $b; }, 0)
+```
 
 This particular example might not be a good one, but keep in mind that the applied function
 can be of any particular complexity, and that you can declare and use it in other places.
 
 It is also important to note that PHP offers an `array_sum` function for this particular case :
 
+```
     $result = array_sum($intArray);
-
+```
 
 Filter an array :
 
+```
     // The imperative way :
 
     $result = array();
@@ -160,7 +167,7 @@ Filter an array :
     // The functional way :
 
     $result = array_filter($intArray, function($a) { return ($a % 2 === 0); })
-
+```
 
 A good example on how you can leverage the `array_filter` function is given in "[PHP The Right Way][9]".
 
@@ -185,6 +192,7 @@ You can use this kind of function in rights management. For example to check if 
 connected user has at least one role with a particular set of permission or to verify that you
 can apply a particular transformation on all elements in an array :
 
+```
     // check for an administrative right
     if(any($roles, function($r) { return $r->isAllowedToTranslate(); }) {
         [do something]
@@ -194,7 +202,7 @@ can apply a particular transformation on all elements in an array :
     if(all($elements, function($e) { return $e->canBeDeleted(); }) {
         [do something]
     }
-
+```
 
 Once you have created all those little building blocks to manipulate your data, you can
 then compose them to perform more complex operations. Sadly PHP don't propose a `compose`
@@ -204,9 +212,11 @@ For example, say I want to do a reverse natural sort. PHP already proposes most 
 function in both "direction", but this is not the case for `natsort`, we could however easily
 achieve our goal with the following :
 
+```
     $natrsort = compose('array_reverse', 'natsort');
 
     $natrsort($myArray);
+```
 
 There would be a lot of others thing to say or show, but I don't want to overwhelm you too much
 and there is already a lot of really interesting resources available on the web :
@@ -241,6 +251,7 @@ return hit the cache. This is exactly the same thing as using caching for web UR
 
 You can do that really easily using static local variables in PHP :
 
+```
     function factorial($n) {
         static $cache = array();
 
@@ -252,10 +263,12 @@ You can do that really easily using static local variables in PHP :
 
         return $cache[$n];
     }
+```
 
 You can also generalize this mechanism using a nifty function that will return a memoized version
 of any pure function :
 
+```
     function memoize($func) {
         return function() use($func) {
             static $cache = array();
@@ -268,15 +281,17 @@ of any pure function :
             return $cache[$key];
         }
     }
+```
 
 You can then simply do the following :
 
+```
     $factorial = function($n) use(&$factorial) {
         if($n == 1) return 1;
         return $n * $factorial($n -1);
     }
     $mem_factorial = memoize($factorial);
-
+```
 
 Et voilà! You just built a cached version of a pure function.
 
@@ -302,4 +317,3 @@ in conferences. I can't promise you that you will fall in love and don't come ba
 that you will learn a lot in the process!
 
 If I could only say one last thing, it would be : "Always strive to learn new things and don't stay in your comfort zone".
-
